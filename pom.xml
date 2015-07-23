@@ -18,15 +18,16 @@
 	<groupId>com.ebay</groupId>
 	<artifactId>cascading-hive</artifactId>
 	<packaging>jar</packaging>
-	<version>0.0.4-SNAPSHOT</version>
+	<version>0.0.4-SNAPSHOT-cdh5.4.4</version>
 	<name>Cascading adapters for Hive and HCatalog</name>
 	<properties>
-		<targetJdk>1.6</targetJdk>
-		<java.version>1.6</java.version>
+		<targetJdk>7</targetJdk>
+		<java.version>7</java.version>
         <hadoop1.version>1.2.1</hadoop1.version>
-		<hadoop2.version>2.2.0</hadoop2.version>
+		<hadoop2.version>2.6.0-cdh5.4.4</hadoop2.version>
 		<cascading.version>2.6.0</cascading.version>
-		<hive.version>0.13.1</hive.version>
+		<hive.version>1.1.0-cdh5.4.4</hive.version>
+    <shims.version>1.1.0</shims.version>
 		<scala.version>2.10</scala.version>
 		<scalding.version>0.11.2</scalding.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -45,6 +46,11 @@
             <email>taxiao@ebay.com</email>
             <url></url>
         </developer>
+		<developer>
+			<id>bfabry</id>
+			<name>Beau Fabry</name>
+      <url>http://github.com/bfabry</url>
+		</developer>
 	</developers>
 
 	<repositories>
@@ -55,6 +61,10 @@
 		<repository>
 			<id>releases.sonatype.org</id>
 			<url>http://oss.sonatype.org/content/repositories/releases</url>
+		</repository>
+		<repository>
+			<id>cloudera</id>
+      <url>https://repository.cloudera.com/artifactory/cloudera-repos/</url>
 		</repository>
 	</repositories>
 
@@ -109,10 +119,21 @@
                     <scope>provided</scope>
                 </dependency>
                 <dependency>
+                  <groupId>org.apache.hive</groupId>
+                  <artifactId>hive-shims</artifactId>
+                  <version>${shims.version}</version>
+                </dependency>
+                <dependency>
                     <groupId>org.apache.hadoop</groupId>
                     <artifactId>hadoop-mapreduce-client-common</artifactId>
                     <version>${hadoop2.version}</version>
                     <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.hadoop</groupId>
+                    <artifactId>hadoop-annotations</artifactId>
+                    <version>${hadoop2.version}</version>
+                    <scope>provided</scope>
                 </dependency>
             </dependencies>
         </profile>

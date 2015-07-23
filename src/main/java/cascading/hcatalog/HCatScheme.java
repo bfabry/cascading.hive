@@ -29,12 +29,12 @@ import org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat;
 import org.apache.hadoop.hive.ql.metadata.Table;
 import org.apache.hadoop.hive.serde2.Deserializer;
 import org.apache.hadoop.hive.serde2.SerDeException;
-import org.apache.hadoop.hive.serde2.SerDeUtils;
 import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspector;
 import org.apache.hadoop.hive.serde2.typeinfo.StructTypeInfo;
 import org.apache.hadoop.hive.serde2.typeinfo.TypeInfo;
 import org.apache.hadoop.hive.serde2.typeinfo.TypeInfoFactory;
 import org.apache.hadoop.hive.serde2.typeinfo.TypeInfoUtils;
+import org.apache.hadoop.hive.metastore.MetaStoreUtils;
 import org.apache.hadoop.mapred.*;
 import org.apache.hive.hcatalog.data.schema.HCatFieldSchema;
 import org.apache.hive.hcatalog.data.schema.HCatSchema;
@@ -92,7 +92,7 @@ public abstract class HCatScheme extends
 
     private void createSerDe(JobConf conf) {
         try {
-            serDe = SerDeUtils.lookupDeserializer(serdeName);
+            serDe = CascadingHCatUtil.getHiveTable(db, table, conf).getDeserializer();
             serDe.initialize(conf, tableMetadata);
         } catch (SerDeException e) {
             throw new RuntimeException("Unable to create serDe with name=" + serdeName + ", metadata=" + tableMetadata);
